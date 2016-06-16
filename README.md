@@ -7,6 +7,7 @@ Ferramentas utilizadas:
 - Apache Tomcat 7
 - MySQL Server
 - MySQL Workbench
+- Astah Community
 
 ---------------------
 |Instruções para uso|
