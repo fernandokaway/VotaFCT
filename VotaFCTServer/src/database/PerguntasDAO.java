@@ -18,7 +18,10 @@ public class PerguntasDAO {
 	}
 	
 	public ArrayList<Pergunta> recuperaPerguntas(){
-		String query = "select * from perguntas inner join alternativas on perguntas.idPerguntas = alternativas.Perguntas_idPerguntas where perguntas.ativa = '1' order by idPerguntas, alternativas.idAlternativas";
+		String query = "select * from perguntas inner join alternativas "
+				+ "on perguntas.idPerguntas = alternativas.Perguntas_idPerguntas "
+				+ "where perguntas.ativa = '1' order by idPerguntas, "
+				+ "alternativas.idAlternativas";
         ResultSet rs;
         ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
         ArrayList<Alternativa> alternativas = new ArrayList<>();
@@ -55,10 +58,10 @@ public class PerguntasDAO {
 	}
 	
 	public boolean updateVoto(String RA, String idAlternativa){
-		String query = "call updateVoto("+RA+","+idAlternativa+")";
+		String query = "call votar("+RA+","+idAlternativa+")";
         stmt = connection.connect();
         try {
-        	stmt.executeUpdate(query);
+        	stmt.executeQuery(query);
         }catch (SQLException e) {
 				e.printStackTrace();
 				connection.disconnect();
