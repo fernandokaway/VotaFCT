@@ -16,7 +16,7 @@ Ferramentas utilizadas:
 
 1. Banco de dados: O arquivo VotaFCT.mwb contém o modelo do banco de dados MySQL Server. Para criar efetivamente o banco pode ser utilizado o MySQL Workbench, bastando para isso abrir o arquivo e usar opção Forward Engineer na aba Database. Os campos idUser e password devem estar populados para refletir as entradas dos usuários no aplicativo Android.
 
-2. Aplicação Servidor VotaFCTServer: A classe Conexao.java, dentro do pacote database, deve ter seu login e senha preenchidos de acordo com a conta de usuário criada no MySQL Server o login e senha para acesso ao banco de dados.
+2. Aplicação Servidor VotaFCTServer: A classe Conexao.java, dentro do pacote database, deve ter seu login e senha preenchidos de acordo com a conta de usuário criada no MySQL Server o login e senha para acesso ao banco de dados. Também é necessário reindexar as bibliotecas em Properties -> Java Build Path -> Dependencies com os arquivos disponíveis na pasta lib do projeto.
 
 3. Aplicação Android VotaFCT: A variável IPAddress da classe IPAddres .java, dentro do pacote services, deve ser preenchida com o endereço IP que estiver rodando o servidor VotaFCTServer 
 
