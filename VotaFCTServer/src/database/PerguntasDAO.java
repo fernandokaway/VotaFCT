@@ -5,10 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.crypto.SecretKey;
-
-import org.bouncycastle.util.encoders.Base64;
-
 import domain.Alternativa;
 import domain.Pergunta;
 
@@ -58,11 +54,8 @@ public class PerguntasDAO {
 		return perguntas;
 	}
 	
-	public boolean updateVoto(String idAlternativa){
-		String query = "update alternativas set qtdeRespostas = "
-				+ "(select sum(qtdeRespostas)+1 "
-				+ "where idAlternativas = '"+idAlternativa+"') "
-						+ "where idAlternativas = '"+idAlternativa+"'";
+	public boolean updateVoto(String RA, String idAlternativa){
+		String query = "call updateVoto("+RA+","+idAlternativa+")";
         stmt = connection.connect();
         try {
         	stmt.executeUpdate(query);
