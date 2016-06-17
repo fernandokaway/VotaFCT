@@ -8,8 +8,8 @@ public class Conexao {
     static Statement stmt;
     String host="localhost";
     String dabatase="votaFCT";
-    String login="";
-    String password = "";
+    String login="root";
+    String password = "ota32272887";
     
     public Conexao()
     {
