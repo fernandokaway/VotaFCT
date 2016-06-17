@@ -3,7 +3,8 @@ Sistema de votação para Android para criado no minicurso de Aplicativos Androi
 
 Ferramentas utilizadas:
 - Android Studio
-- Eclipse
+- SDK Android 18, 19, 20, 21 e 22
+- Eclipse EE
 - Apache Tomcat 7
 - MySQL Server
 - MySQL Workbench
