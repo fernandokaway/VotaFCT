@@ -92,7 +92,7 @@ public class UserDAO {
 	
 	//Retrieve initialization vector IV
 	public byte[] retrIV(String userId){
-		String query = "select * from userpt2 where idUser = '"+userId+"'";
+		String query = "select * from user where idUser = '"+userId+"'";
 		String iv = null;
         ResultSet rs;
         stmt = connection.connect();

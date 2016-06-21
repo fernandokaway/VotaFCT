@@ -47,6 +47,7 @@ public class Votacao {
 			}
 		}
 		final boolean saida = resposta;
+		System.out.println("Voto computado");
 		
 		return new StreamingOutput(){
 			public void write(OutputStream os) throws IOException, 

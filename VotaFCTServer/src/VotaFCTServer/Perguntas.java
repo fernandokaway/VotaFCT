@@ -46,6 +46,7 @@ public class Perguntas {
 			public void write(OutputStream os) throws IOException, 
 			WebApplicationException{
 				outputPerguntas(os, Crypto.encryptString(geraXML(perguntas), sk, ivBytes)); 
+				//outputPerguntas(os, geraXML(perguntas)); 
 			}
 		};
 		
@@ -60,17 +61,20 @@ public class Perguntas {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintStream writer = new PrintStream(baos);
 		String xml = new String();
-		//writer.println("<Ps>");
+		writer.println("<Ps>");
 		for(int i = 0; i < p.size(); i++){
 			writer.println("<p>");
 			writer.println("	<it>" + p.get(i).getId() + "," + p.get(i).getTitulo() + "</it>");
 			for(int j = 0; j < p.get(i).getAlternativas().size(); j++){
-				writer.println("	<a>" + p.get(i).getAlternativas().get(j).getId()+","+
+				writer.println("	<as>");
+				writer.println("		<a>" + p.get(i).getAlternativas().get(j).getId()+","+
 						p.get(i).getAlternativas().get(j).getTitulo()+ "</a>");
+				writer.println("	</as>");
 			}
+			
 			writer.println("</p>");
 		}
-		//writer.println("</Ps>");
+		writer.println("</Ps>");
 		xml = new String(baos.toByteArray(), StandardCharsets.UTF_8);
 		return xml;
 	}
