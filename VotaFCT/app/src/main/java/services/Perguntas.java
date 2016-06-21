@@ -20,13 +20,13 @@ import javax.crypto.SecretKey;
 import domain.Alternativa;
 import domain.Pergunta;
 import tools.Crypto;
+import tools.Tools;
 import tools.XMLParser;
 
 /**
  * Created by fernandokaway on 6/17/16.
  */
 public class Perguntas {
-
 
     private static IPAddress ipAddress = new IPAddress();
 
@@ -38,7 +38,7 @@ public class Perguntas {
         }
 
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(ipAddress.getAddress()+"perguntas/"+id+","+iv);
+        HttpGet request = new HttpGet(ipAddress.getAddress()+"perguntas/"+id+","+ Tools.bytesToHex(iv));
         HttpResponse response = null;
 
         try {
@@ -48,7 +48,9 @@ public class Perguntas {
             e.printStackTrace();
         }
 
-        ArrayList<Pergunta> perguntas = parsePerguntas(Crypto.decryptString(cipher, sk, iv));
+        String xml = Crypto.decryptString(cipher.substring(0, cipher.length()-1), sk, iv);
+
+        ArrayList<Pergunta> perguntas = parsePerguntas(xml);
 
         return perguntas;
     }
@@ -57,21 +59,23 @@ public class Perguntas {
         XMLParser parser = new XMLParser();
         Document doc = parser.getDomElement(xml);
 
-        NodeList perguntasNL = doc.getElementsByTagName("p");
-        String[] parts;
+        NodeList perguntasNL = doc.getElementsByTagName("Ps");
+        Element e0 = (Element) perguntasNL.item(0);
+        NodeList perguntaNL = e0.getElementsByTagName("p");
+        String[] parts, parts2;
 
         ArrayList<Pergunta> perguntas = new ArrayList<>();
 
-        for(int i=0; i<perguntasNL.getLength(); i++) {
-            Element e = (Element) perguntasNL.item(i);
+        for(int i=0; i< perguntaNL.getLength(); i++) {
+            Element e = (Element) perguntaNL.item(i);
             parts = parser.getValue(e,"it").split(",");
             Pergunta pergunta = new Pergunta(Integer.parseInt(parts[0]),parts[1]);
-            NodeList alternativasNL = e.getElementsByTagName("a");
+            NodeList alternativasNL = e.getElementsByTagName("as");
             ArrayList<Alternativa> alternativas = new ArrayList<>();
             for (int j = 0; j < alternativasNL.getLength(); j++) {
                 Element e1 = (Element) alternativasNL.item(j);
-                parts = parser.getValue(e, "a").split(",");
-                alternativas.add(new Alternativa(Integer.parseInt(parts[0]),parts[1]));
+                parts2 = parser.getValue(e1, "a").split(",");
+                alternativas.add(new Alternativa(Integer.parseInt(parts2[0]),parts2[1]));
             }
             pergunta.setAlternativas(alternativas);
             perguntas.add(pergunta);

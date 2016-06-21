@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.util.encoders.Base64;
+
+import java.security.Security;
 
 import javax.crypto.SecretKey;
 
@@ -21,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText raET;
     private EditText senhaET;
     private Button okBT;
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,7 @@ package services;
 
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,28 +33,37 @@ import tools.Crypto;
  */
 public class Votacao {
 
-    public static ArrayList<Pergunta> getPerguntas(String id, SecretKey sk, byte[] iv){
+    private static IPAddress ipAddress = new IPAddress();
+
+    public static String getConfirmacaoVoto(String id, SecretKey sk, byte[] iv, int[] alternativas){
         String cipher = null;
-        String xml = null;
+        String saida = ""+id;
+        String resposta = null;
         if( Build.VERSION.SDK_INT >= 9){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
+        for(int i = 0; i < alternativas.length; i++) saida += ","+alternativas[i];
+
+        Log.i("Saida",saida);
+
+        cipher = Crypto.encryptString(saida, sk, iv);
+
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(ipAddress.getAddress()+"perguntas/"+id+","+iv);
+        HttpGet request = new HttpGet(ipAddress.getAddress()+"votacao/"+id+","+cipher);
+
+        Log.i("Request",ipAddress.getAddress()+"votacao/"+id+","+cipher);
         HttpResponse response = null;
 
         try {
             response = client.execute(request);
-            cipher = EntityUtils.toString(response.getEntity());
+            resposta = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ArrayList<Pergunta> perguntas = parsePerguntas(Crypto.decryptString(cipher, sk, iv));
-
-        return perguntas;
+        return resposta;
     }
 
 }
